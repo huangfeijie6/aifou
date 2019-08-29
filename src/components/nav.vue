@@ -43,6 +43,8 @@
 		padding: 5px 0;
 	}
 	.row{
+		margin-bottom: 10px;
+		background: #fff;
 		display: flex;
 		flex-flow: row wrap;
 	}

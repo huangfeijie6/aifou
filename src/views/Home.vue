@@ -15,6 +15,7 @@
 				  </mt-swipe>
 			  </div>
 			  <nava></nava>
+			  <day-recommend></day-recommend>
 		  </mt-tab-container-item>
 		  <mt-tab-container-item id='tab2'>
 			  <cart></cart>
@@ -57,6 +58,7 @@ import nava from '../components/nav.vue'
 import uc from '../components/uc.vue'
 import order from '../components/order.vue'
 import goback from '../components/goback.vue'
+import dayrecommend from '../components/dayrecommend.vue'
 export default {
 	data(){
 		return{ 
@@ -85,7 +87,8 @@ export default {
 	  'nava':nava,
 	  'uc':uc,
 	  'order':order,
-	  'goback':goback
+	  'goback':goback,
+	  'dayRecommend':dayrecommend
   }
 }
 </script>
