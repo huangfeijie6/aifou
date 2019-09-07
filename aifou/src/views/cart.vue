@@ -11,7 +11,7 @@
 		 
 		<div class="bg" v-for="(task,i) of list" :key='i'>
 			<div class="width flex">
-				<input type="checkbox">
+				<div class="checkbox" @click="checkbtn(i)"  :class={checkbox1:task.select}></div>
 				<img :src="`http://127.0.0.1:3000/${task.img}`" alt="">
 				<div class="messge">
 					<div class="title" v-text="task.lname"></div>
@@ -31,52 +31,6 @@
 		</div>
 			<div class="add">总价:￥{{total}}.00</div>
 			
-			
-			
-			
-			
-			<!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-			  <div style="margin: 15px 0;"></div>
-			  <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-			    <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
-			  </el-checkbox-group> -->
-			
-			
-			
-			
-			
-						
-						
-			<!-- <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-			<div style="margin: 15px 0;"></div>
-			<el-checkbox-group v-model="list" @change="handleCheckedCitiesChange">
-				 <el-checkbox  v-for="(task,i) of list" :label='i' :key='i'>
-				 <div class="bg">
-					<div class="width flex">
-						<img :src="`http://127.0.0.1:3000/${task.img}`" alt="">
-						<div class="messge">
-							<div class="title" v-text="task.lname"></div>
-							<div class="details">
-								<div v-text="`色彩:${task.color}`"></div>
-								<div v-text="`版本:${task.version}`"></div>
-							</div>
-							<div class="bottom">
-								<div class="left">
-									 <el-input-number v-model="task.count" :data-id='task.id' :data-count='task.count' @change="handleChange(task.count,task.id)" :min="1" :max="10" >
-										 
-									 </el-input-number>
-								</div>
-								<div class="money" v-text="`￥${task.price*task.count}`"></div>
-							</div>
-						</div>
-						<div class="del" @click="del" :data-id='task.id' >删除</div>
-					</div>
-				 </div>
-			 </el-checkbox>
-				<div class="add">总价:￥{{total}}.00</div>
-			 </el-checkbox-group> -->
-			 
-			
 	</div>
 </template>
 
@@ -88,12 +42,13 @@
 			//当前组件共享数据，模块直接读取
 			return{
 			//默认返回空对象（没数据）
-				list:[]
-				// value:[],
-				// checkAll: false,
-			 //  isIndeterminate: true
-				
+				list:[],
+				value:[],
+				checkAll: false
 			}
+		},
+		mounted() {
+			
 		},
 		computed:{
 			total(){
@@ -105,30 +60,14 @@
 			}
 		},
 		methods:{
-			
-			// handleCheckAllChange(val) {
-			// 	console.log(this.list);
-			//   this.value = val ? this.list : [];
-			//   console.log(this.value);
-			//   this.isIndeterminate = false;
-			// },
-			// handleCheckedCitiesChange(value) {
-			// 	console.log(value);
-			//   let checkedCount = value.length;
-			//   console.log(checkedCount);
-			//   this.checkAll = checkedCount === this.list.length;
-			//   console.log(this.checkAll );
-			//   this.isIndeterminate = checkedCount > 0 && checkedCount < this.list.length;
-			//   console.log(this.isIndeterminate);
-			// },
-			
-			
-						
-			
-			
-			
-			
-			
+			checkbtn(i){
+				console.log(this.list[i].select);
+				if(this.list[i].select==true){
+					this.list[i].select=false;
+				}else{
+					this.list[i].select=true;
+				}
+			},
 			handleChange(count,id){
 				let url='chang';
 				let obj={count:count,id:id};
@@ -136,14 +75,13 @@
 					console.log(res);
 				})
 			},
-			en(e){
-				console.log(e.targe);
-			},
 			loadmore(){
-				let url='cart'
+				let url='cart';
 				this.axios.get(url).then(res=>{
 					this.list=res.data.data;
-					console.log(this.list);
+					for(let i=0;i<this.list.length;i++){
+						this.list[i].select=false;
+					}
 				})
 			},
 			del(e){
@@ -158,7 +96,7 @@
 				})
 			}
 		},
-		created() {
+		mounted() {
 			this.loadmore();
 		}
 	}
@@ -174,7 +112,7 @@
 		height: 100px;
 	}
 	.width{
-		width: 116%;
+		width: 121%;
 	}
 	.add{
 		background: #fff;
@@ -188,8 +126,18 @@
 	}
 	.flex{
 		display: flex;
+		/* display: -webkit-box; */
 		justify-content: space-between;
 		align-items: center;
+	}
+	.checkbox{
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background: #aaa url('../assets/yes.png') -50px -50px no-repeat;
+	}
+	.checkbox1{
+		background-position: -2px -2px;
 	}
 	.left{
 		display: flex;

@@ -33,27 +33,33 @@
 			reload(){
 				let url='use';
 				let obj={uid:this.uid};
-				// console.log(this.uid);
-				this.axios.get(url,{params:obj}).then(res=>{
-					console.log(res.data.data[0]);
-					if(res.data.data[0].uid){
-						// console.log(res.data.data[0].uname);
-						this.uname=res.data.data[0].uname
-					}else{
-						return;
-					}
-				})
+				if(this.uid){
+					// console.log(this.uid);
+					this.axios.get(url,{params:obj}).then(res=>{
+						// console.log(res.data.data[0]);
+						if(res.data.data[0].uid){
+							this.uname=res.data.data[0].uname;
+						}else{
+							return;
+						}
+					})
+				}
 			},
 			exit(){
-				this.$messagebox.confirm('确认退出登录？').then(action=>{
-					this.$router.push('/login')
-				}).catch(err=>{})
+				console.log(sessionStorage.getItem("uid"));
+				if(sessionStorage.getItem("uid")){
+					this.$messagebox.confirm('确认退出登录？').then(action=>{
+						this.$router.push('/login');
+					}).catch(err=>{})
+				}else{
+					this.$router.push('/login');
+				}
 			}
 		},
 		created() {
 			// console.log(sessionStorage.getItem("uid"));
 			this.uid=sessionStorage.getItem("uid");
-			// console.log(this.uid);
+			console.log(this.uid);
 			this.reload()
 		}
 	}
