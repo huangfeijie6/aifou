@@ -31,6 +31,30 @@ server.use(express.static('public'));
 // 启动监听3000
 server.listen(3000);
 
+server.get('/reg',(req,res)=>{
+	let uname=req.query.uname;
+	let uphone=req.query.uphone;
+	let upwd=req.query.upwd;
+	
+	let sql='select uid from user where uphone=?'
+	pool.query(sql,[uphone],(err,result)=>{
+		if(err) throw err;
+		console.log(result);
+		if(result.length==0){
+			let mysql='insert into user value(null,?,?,?)';
+				pool.query(mysql,[uname,upwd,uphone],(err,result)=>{
+					if(err) throw err;
+					res.send({code:1,msg:'添加成功'})
+				})
+		}else{
+			res.send({code:-1,msg:'添加失败'})
+		}
+	})
+	
+})
+
+
+
 
 // 登录页面的验证
 server.get('/login',(req,res)=>{
@@ -98,6 +122,21 @@ server.get('/cart',(req,res)=>{
 	})
 })
 
+server.get('/asc',(req,res)=>{
+	var uid=req.session.arr.uid;
+	if(!uid){
+		res.send({code:-1,msg:'请登录'});
+		return;
+	}
+	// console.log(req.session.arr.uid);
+	var sql='SELECT * FROM products ORDER BY price ASC';
+	pool.query(sql,(err,result)=>{
+		if(err) throw err;
+		res.send({data:result})
+	})
+})
+
+
 
 //http://127.0.0.1:3000/login?uphone=111&upwd=111
 // 添加购物车
@@ -131,6 +170,8 @@ server.get('/addcart',(req,res)=>{
 		})
 	})
 })
+
+
 server.get('/chang',(req,res)=>{
 	console.log(req.query);
 	let id=req.query.id;
@@ -147,30 +188,33 @@ server.get('/chang',(req,res)=>{
 	})
 })
 
-server.get('/add',(req,res)=>{
-	let id=req.query.id;
-	let sql=`update cart set count=count+1 where id=${id}`;
-	pool.query(sql,[id],(err,result)=>{
-		if(err) throw err;
-		if(result.affectedRows>0){
-			res.send({code:1,msg:'添加成功'})
-		}else{
-			res.send({code:-1,msg:'添加失败'})
-		}
-	})
-})
-server.get('/reduce',(req,res)=>{
-	let id=req.query.id;
-	let sql=`update cart set count=count-1 where id=${id}`;
-	pool.query(sql,[id],(err,result)=>{
-		if(err) throw err;
-		if(result.affectedRows>0){
-			res.send({code:1,msg:'减少成功'})
-		}else{
-			res.send({code:-1,msg:'减少失败'})
-		}
-	})
-})
+// server.get('/add',(req,res)=>{
+// 	let id=req.query.id;
+// 	let sql=`update cart set count=count+1 where id=${id}`;
+// 	pool.query(sql,[id],(err,result)=>{
+// 		if(err) throw err;
+// 		if(result.affectedRows>0){
+// 			res.send({code:1,msg:'添加成功'})
+// 		}else{
+// 			res.send({code:-1,msg:'添加失败'})
+// 		}
+// 	})
+// })
+// 
+// 
+// 
+// server.get('/reduce',(req,res)=>{
+// 	let id=req.query.id;
+// 	let sql=`update cart set count=count-1 where id=${id}`;
+// 	pool.query(sql,[id],(err,result)=>{
+// 		if(err) throw err;
+// 		if(result.affectedRows>0){
+// 			res.send({code:1,msg:'减少成功'})
+// 		}else{
+// 			res.send({code:-1,msg:'减少失败'})
+// 		}
+// 	})
+// })
 
 
 

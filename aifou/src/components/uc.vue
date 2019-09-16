@@ -46,7 +46,7 @@
 				}
 			},
 			exit(){
-				console.log(sessionStorage.getItem("uid"));
+				// console.log(sessionStorage.getItem("uid"));
 				if(sessionStorage.getItem("uid")){
 					this.$messagebox.confirm('确认退出登录？').then(action=>{
 						this.$router.push('/login');
@@ -59,7 +59,6 @@
 		created() {
 			// console.log(sessionStorage.getItem("uid"));
 			this.uid=sessionStorage.getItem("uid");
-			console.log(this.uid);
 			this.reload()
 		}
 	}

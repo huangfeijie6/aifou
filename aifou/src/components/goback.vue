@@ -19,7 +19,6 @@
 		methods:{
 			goback(){
 				var i=100;
-				console.log(window.scrollY);
 				var myVar=setInterval(function(){
 					scrollTo(0,window.scrollY-i);
 					if(window.scrollY-i<0){

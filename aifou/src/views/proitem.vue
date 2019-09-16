@@ -64,12 +64,14 @@
 				var color=e.target.dataset.color;
 				var price=e.target.dataset.price;
 				var version=e.target.dataset.version;
-				// console.log(pid+':'+lname+':'+img+':'+color+':'+price+':'+version);
 				let url='addcart';
 				let obj={pid:pid,lname:lname,img:img,color:color,price:price,version:version};
-				console.log(obj);
 				this.axios.get(url,{params:obj}).then(res=>{
-					// console.log(res);
+					if(res.data.code>0){
+						this.$toast('添加成功')
+					}else{
+						this.$toast('添加失败')
+					}
 				})
 				
 			}
@@ -95,7 +97,6 @@
 			this.axios.get(url2).then(res=>{
 				// console.log(res.data.data);
 				this.list2=res.data.data[this.pid-1];
-				console.log(this.list2);
 			})
 		},
 		components:{

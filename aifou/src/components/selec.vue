@@ -4,7 +4,7 @@
 	<div style="background: #FFFFFF;">
 		<div class="heade">
 			<div @click="pic" :class="{or_bottom}">当前价格
-			<div :class="{icon1,icon1_active1,icon1_active2}"></div>
+				<div :class="{icon1,icon1_active1,icon1_active2}"></div>
 			</div>
 			<div @click="icon2=!icon2">
 				筛选
@@ -31,7 +31,8 @@
 				icon1:true,
 				icon1_active1:false,
 				icon1_active2:false,
-				icon2:false
+				icon2:false,
+				list:[]
 			}
 		},
 		methods:{
@@ -46,6 +47,14 @@
 					this.icon1_active1=true,
 					this.icon1_active2=false
 				}
+				let url='asc'
+				this.axios.get(url).then(res=>{
+					this.list=res.data.data;
+					
+					
+					this.$emit('asc',this.list)
+					console.log(res.data.data);
+				})
 			}
 		},
 		components:{

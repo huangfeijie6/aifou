@@ -10,10 +10,10 @@
 		<router-link :to="`/`">
 		<div :style="isshow?'z-index:20':''" :class="isshow?'home1':'home'"></div>
 		</router-link>
-		<router-link :to='`/`'>
+		<router-link :to='`/cart`'>
 		<div :style="isshow?'z-index:20':''" :class="isshow?'shopping1':'shopping'" ></div>
 		</router-link>
-		<router-link :to='`/`'>
+		<router-link :to='`/my`'>
 		<div :style="isshow?'z-index:20':''" :class="isshow?'person1':'person'"></div>
 		</router-link>
 		

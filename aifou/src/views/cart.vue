@@ -2,35 +2,42 @@
 <template>
 	<!-- 模板要求：必须有一个根标签 -->
 	<div class="button">
-		<!-- <div style="width: 375px;height: 667px;"  class="pic">
+		<div style="width: 375px;height: 667px;"  class="pic" v-if="list.length==0">
 			<img src="../assets/nullshop.png" alt="">
 			<p>空空如也</p>
 			<p>赶紧去挑选几张自己喜欢的图片吧</p>
 		</div>
-		 -->
-		 
-		<div class="bg" v-for="(task,i) of list" :key='i'>
-			<div class="width flex">
-				<div class="checkbox" @click="checkbtn(i)"  :class={checkbox1:task.select}></div>
-				<img :src="`http://127.0.0.1:3000/${task.img}`" alt="">
-				<div class="messge">
-					<div class="title" v-text="task.lname"></div>
-					<div class="details">
-						<div v-text="`色彩:${task.color}`"></div>
-						<div v-text="`版本:${task.version}`"></div>
-					</div>
-					<div class="bottom">
-						<div class="left">
-							 <el-input-number v-model="task.count" :data-id='task.id' :data-count='task.count' @change="handleChange(task.count,task.id)" :min="1" :max="10" ></el-input-number>
+		
+		 <div v-else>
+			<div class="bg" v-for="(task,i) of list" :key='i'>
+				<div class="width flex">
+					<!-- <div class="checkbox" @click="checkbtn(i)"  :class={checkbox1:task.select}></div> -->
+					<input type="checkbox" :checked='task.cb' v-model="task.cb" @click="checkbtn(i)">
+					<img :src="`http://127.0.0.1:3000/${task.img}`" alt="">
+					<div class="messge">
+						<div class="title" v-text="task.lname"></div>
+						<div class="details">
+							<div v-text="`色彩:${task.color}`"></div>
+							<div v-text="`版本:${task.version}`"></div>
 						</div>
-						<div class="money" v-text="`￥${task.price*task.count}`"></div>
+						<div class="bottom">
+							<div class="left">
+								 <el-input-number v-model="task.count" @change="handleChange(task.count,task.id)" :min="1" :max="10" ></el-input-number>
+							</div>
+							<div class="money" v-text="`￥${task.price*task.count}`" @click="num1(task.count,task.price,task.cb)"></div>
+						</div>
 					</div>
+					<div class="del" @click="del" :data-id='task.id' >删除</div>
 				</div>
-				<div class="del" @click="del" :data-id='task.id' >删除</div>
 			</div>
-		</div>
-			<div class="add">总价:￥{{total}}.00</div>
-			
+				<div class="add">
+					<div><input type="checkbox" @click="checkall" v-model="checkAll">全选</div>
+					总价:￥{{num}}.00
+					<mt-button type='primary'>去结算</mt-button>
+				</div>
+		 </div>
+			 
+				
 	</div>
 </template>
 
@@ -43,57 +50,94 @@
 			return{
 			//默认返回空对象（没数据）
 				list:[],
-				value:[],
-				checkAll: false
+				checkAll: true,
+				num:0
 			}
 		},
-		mounted() {
-			
-		},
-		computed:{
-			total(){
-				let total=0;
-				for(let p of this.list){
-					total+=p.count*p.price;
-				}
-				return total;
-			}
-		},
+		// computed:{
+		// 	total(){
+		// 		let total=0;
+		// 		for(let p of this.list){
+		// 			console.log(p.cb);
+		// 			if(p.cb){
+		// 				total+=p.count*p.price;
+		// 			}else{
+		// 				total+=0;
+		// 			}
+		// 		}
+		// 		return total;
+		// 	}
+		// },
 		methods:{
-			checkbtn(i){
-				console.log(this.list[i].select);
-				if(this.list[i].select==true){
-					this.list[i].select=false;
-				}else{
-					this.list[i].select=true;
+			num1(){
+				let list=this.list;
+				let num=0;
+				for(let i=0;i<this.list.length;i++){
+					if(list[i].cb){
+						num+=list[i].count*list[i].price;
+					}
 				}
+				this.num=num;
+			},
+			checkbtn(i){
+				if(this.list[i].cb==false){
+					this.list[i].cb=true;
+				}else{
+					this.list[i].cb=false;
+				}
+				for(let i=0;i<this.list.length;i++){
+					if(this.list[i].cb==false){
+						this.checkAll=false;
+						this.num1();
+						return;
+					}else{
+						this.checkAll=true;
+					}
+				}
+				this.num1();
+				
+			},
+			checkall(){
+				if(this.checkAll==false){
+					this.checkAll=true;
+				}else{
+					this.checkAll=false;
+				}
+				for(let i=0;i<this.list.length;i++){
+					this.list[i].cb=this.checkAll;
+				}
+				this.num1();
 			},
 			handleChange(count,id){
 				let url='chang';
 				let obj={count:count,id:id};
 				this.axios.get(url,{params:obj}).then(res=>{
-					console.log(res);
+					// console.log(res)
 				})
+				this.num1();
 			},
 			loadmore(){
 				let url='cart';
 				this.axios.get(url).then(res=>{
 					this.list=res.data.data;
 					for(let i=0;i<this.list.length;i++){
-						this.list[i].select=false;
+						this.list[i].cb=true;
 					}
+					this.num1();	
 				})
 			},
 			del(e){
 				let id=e.target.dataset.id;
 				let url='del';
 				let obj={id:id};
-				this.axios.get(url,{params:obj}).then(res=>{
-					if(res.data.code>0){
-						this.$toast('删除成功');
-						this.loadmore();
-					}
-				})
+				this.$messagebox.confirm('确定要删除吗?').then(action=>{
+					this.axios.get(url,{params:obj}).then(res=>{
+						if(res.data.code>0){
+							this.$toast('删除成功');
+							this.loadmore();
+						}})
+				}).catch(err=>{})
+				this.num1();
 			}
 		},
 		mounted() {
@@ -117,6 +161,13 @@
 	.add{
 		background: #fff;
 		font-size: 1.5rem;
+		position: fixed;
+		z-index: 2;
+		width: 100%;
+		bottom: 52px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 	.pic{
 		display: flex;
@@ -167,7 +218,7 @@
 		white-space: nowrap;
 	}
 	.button{
-		margin-bottom: 70px;
+		margin-bottom: 100px;
 	}
 	.messge{
 		height: 100%;

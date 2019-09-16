@@ -12,7 +12,6 @@
 		  </mt-tab-container-item>
 	  </mt-tab-container>
 	  <mt-tabbar fixed v-model='active'>
-		  
 			<mt-tab-item id='tab1' @click.native='changState(0)'>
 			  <tabbaricon 
 			  :normal="require('../assets/index.png')"
@@ -20,21 +19,21 @@
 			  :focused='currentIndex[0].isselect'></tabbaricon>
 			  首页
 			</mt-tab-item>
-				<mt-tab-item id='tab2' @click.native='changState(1)'>
-				  <tabbaricon
-				  :normal="require('../assets/shopping.png')"
-				  :select="require('../assets/shopping_active.png')"
-				  :focused='currentIndex[1].isselect'></tabbaricon>
-				  购物车
-				</mt-tab-item>
-				<mt-tab-item id='tab3' @click.native='changState(2)'>
-					<tabbaricon
-					:normal="require('../assets/my.png')"
-					:select="require('../assets/my_active.png')"
-					:focused='currentIndex[2].isselect'>
-					</tabbaricon>
-				  我的
-				</mt-tab-item>
+			<mt-tab-item id='tab2' @click.native='changState(1)'>
+			  <tabbaricon
+			  :normal="require('../assets/shopping.png')"
+			  :select="require('../assets/shopping_active.png')"
+			  :focused='currentIndex[1].isselect'></tabbaricon>
+			  购物车
+			</mt-tab-item>
+			<mt-tab-item id='tab3' @click.native='changState(2)'>
+				<tabbaricon
+				:normal="require('../assets/my.png')"
+				:select="require('../assets/my_active.png')"
+				:focused='currentIndex[2].isselect'>
+				</tabbaricon>
+			  我的
+			</mt-tab-item>
 	  </mt-tabbar>
   </div>
 </template>
@@ -48,10 +47,10 @@ import my from './my.vue'
 export default {
 	data(){
 		return{ 
-			active:'tab1',
+			active:'tab2',
 			currentIndex:[
-				{isselect:true},
 				{isselect:false},
+				{isselect:true},
 				{isselect:false}
 			]
 		}
