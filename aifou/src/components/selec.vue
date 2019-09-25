@@ -41,20 +41,25 @@
 				this.or_bottom=true;
 				this.icon1=false;
 				if(this.i%2==0){
-					this.icon1_active1=false,
-					this.icon1_active2=true
+					this.icon1_active1=false;
+					this.icon1_active2=true;
+					let url='asc'
+					this.axios.get(url).then(res=>{
+						this.list=res.data.data;
+						this.$emit('asc',this.list)
+						// console.log(res.data.data);
+					})
 				}else{
-					this.icon1_active1=true,
-					this.icon1_active2=false
+					this.icon1_active1=true;
+					this.icon1_active2=false;
+					let url='desc';
+					this.axios.get(url).then(res=>{
+						this.list=res.data.data;
+						this.$emit('asc',this.list)
+						// console.log(res.data.data);
+					})
 				}
-				let url='asc'
-				this.axios.get(url).then(res=>{
-					this.list=res.data.data;
-					
-					
-					this.$emit('asc',this.list)
-					console.log(res.data.data);
-				})
+				
 			}
 		},
 		components:{

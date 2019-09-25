@@ -2,7 +2,7 @@
 <template>
 	<!-- 模板要求：必须有一个根标签 -->
 	<div>
-		<selec></selec>
+		<selec @asc='asc'></selec>
 			<div class="pro">
 				<div class="item" v-for="(task,i) of list"  :key='i'>
 				<!-- <div class="item" v-for="(task,i) of list" v-model="list" :key='i' @asc='asc'> -->
@@ -33,20 +33,18 @@
 		methods:{
 			asc(list){
 				this.list=list;
-				console.log(1111);
 			}
 		},
 		created() {
+			
+			
+		},
+		mounted() {
 			var url='products'
 			this.axios.get(url).then(res=>{
 				this.list=res.data.data;
 			})
-			
-		},
-		mounted() {
 			this.bus.$on('asc',this.asc.bind(this))
-			
-			
 		},
 		components:{
 			'selec':selec,

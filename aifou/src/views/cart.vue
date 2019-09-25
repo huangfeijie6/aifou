@@ -2,7 +2,7 @@
 <template>
 	<!-- 模板要求：必须有一个根标签 -->
 	<div class="button">
-		<div style="width: 375px;height: 667px;"  class="pic" v-if="list.length==0">
+		<div style="width: 375px;height: 667px;"  class="pic" v-if="list.code==-1||list.length<1">
 			<img src="../assets/nullshop.png" alt="">
 			<p>空空如也</p>
 			<p>赶紧去挑选几张自己喜欢的图片吧</p>
@@ -119,11 +119,16 @@
 			loadmore(){
 				let url='cart';
 				this.axios.get(url).then(res=>{
-					this.list=res.data.data;
-					for(let i=0;i<this.list.length;i++){
-						this.list[i].cb=true;
+					if(res.data.code==-1){
+						this.list=res.data;
+						return;
+					}else{
+						this.list=res.data.data;
+						for(let i=0;i<this.list.length;i++){
+							this.list[i].cb=true;
+						}
+						this.num1();							
 					}
-					this.num1();	
 				})
 			},
 			del(e){

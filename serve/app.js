@@ -109,17 +109,18 @@ server.get('/products',(req,res)=>{
 
 // 获取购物车信息
 server.get('/cart',(req,res)=>{
-	var uid=req.session.arr.uid;
-	if(!uid){
+	if(!req.session.arr){
 		res.send({code:-1,msg:'请登录'});
 		return;
+	}else{
+		var uid=req.session.arr.uid;
+		var sql='select * from cart where uid=?';
+		pool.query(sql,[uid],(err,result)=>{
+			if(err) throw err;
+			res.send({data:result})
+		})		
 	}
 	// console.log(req.session.arr.uid);
-	var sql='select * from cart where uid=?';
-	pool.query(sql,[uid],(err,result)=>{
-		if(err) throw err;
-		res.send({data:result})
-	})
 })
 
 server.get('/asc',(req,res)=>{
@@ -130,6 +131,20 @@ server.get('/asc',(req,res)=>{
 	}
 	// console.log(req.session.arr.uid);
 	var sql='SELECT * FROM products ORDER BY price ASC';
+	pool.query(sql,(err,result)=>{
+		if(err) throw err;
+		res.send({data:result})
+	})
+})
+
+server.get('/desc',(req,res)=>{
+	var uid=req.session.arr.uid;
+	if(!uid){
+		res.send({code:-1,msg:'请登录'});
+		return;
+	}
+	// console.log(req.session.arr.uid);
+	var sql='SELECT * FROM products ORDER BY price DESC';
 	pool.query(sql,(err,result)=>{
 		if(err) throw err;
 		res.send({data:result})

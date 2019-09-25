@@ -11,27 +11,12 @@
 			<div class="flex">
 				<div>{{list2.title}}</div>
 				<div class="moeny">售价<span>￥{{list2.price}}</span>
-				<div v-show="list2.old_price" class="old">
-					(原价: 
-					<div class="oldpic" v-text="`￥${list2.old_price}`"></div>
-					)
+					<div v-show="list2.old_price" class="old">
+						(原价: 
+						<div class="oldpic" v-text="`￥${list2.old_price}`"></div>
+						)
+					</div>
 				</div>
-			</div>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
-				<br>
 			</div>
 			<mt-button class='btn' size='large' type='primary' @click='addcart'
 			:data-pid='list2.pid' :data-lname='list2.title' :data-img='list2.img' 
@@ -73,10 +58,8 @@
 						this.$toast('添加失败')
 					}
 				})
-				
 			}
 		},
-		
 		created() {
 			let u=this.uname;
 			let p=this.upwd;
@@ -114,11 +97,15 @@
 	.title{
 		background: #fff;
 		padding: 0.5rem;
+		height: 100%;
 	}
 	.flex{
 		display: flex;
 		flex-flow: column;
 		align-items: flex-start;
+	}
+	.title > .flex{
+		height: 100vh;
 	}
 	.flex span{
 		color: orange;
