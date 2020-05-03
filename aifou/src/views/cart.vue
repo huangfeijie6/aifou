@@ -5,7 +5,7 @@
 		<div style="width: 375px;height: 667px;"  class="pic" v-if="list.code==-1||list.length<1">
 			<img src="../assets/nullshop.png" alt="">
 			<p>空空如也</p>
-			<p>赶紧去挑选几张自己喜欢的图片吧</p>
+			<p>赶紧去挑选几件自己喜欢的商品吧</p>
 		</div>
 		
 		 <div v-else>
@@ -33,7 +33,7 @@
 				<div class="add">
 					<div><input type="checkbox" @click="checkall" v-model="checkAll">全选</div>
 					总价:￥{{num}}.00
-					<mt-button type='primary'>去结算</mt-button>
+					<mt-button type='primary' @click="jumpmark">去结算</mt-button>
 				</div>
 		 </div>
 			 
@@ -143,6 +143,9 @@
 						}})
 				}).catch(err=>{})
 				this.num1();
+			},
+			jumpmark(){
+				this.$router.push('mark')
 			}
 		},
 		mounted() {

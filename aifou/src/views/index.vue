@@ -35,7 +35,16 @@
 			'nava':nava,
 			'dayRecommend':dayrecommend
 		},
-		created() {}
+		created() {
+			let i=100;
+			let myVar=setInterval(function(){
+				scrollTo(0,window.scrollY-i);
+				if(window.scrollY-i<0){
+					clearInterval(myVar)
+					scrollTo(0,0);
+				}
+			},1)
+		}
 	}
 </script>
 

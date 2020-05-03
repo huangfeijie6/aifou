@@ -8,7 +8,7 @@
 		</div>
 		<div class="fullscreen" :style="isshow?'z-index:2':''"></div>
 		<router-link :to="`/`">
-		<div :style="isshow?'z-index:20':''" :class="isshow?'home1':'home'"></div>
+		<div :style="isshow?'z-index:20':''" :class="isshow?'home1':'home'"	></div>
 		</router-link>
 		<router-link :to='`/cart`'>
 		<div :style="isshow?'z-index:20':''" :class="isshow?'shopping1':'shopping'" ></div>

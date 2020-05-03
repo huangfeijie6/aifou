@@ -74,13 +74,20 @@
 					}
 				}
 				this.list1=list;
-				}
-			);
-			let url2='products'
+			});
+			let url2='products';
 			this.axios.get(url2).then(res=>{
 				// console.log(res.data.data);
 				this.list2=res.data.data[this.pid-1];
 			})
+			let i=100;
+			let myVar=setInterval(function(){
+				scrollTo(0,window.scrollY-i);
+				if(window.scrollY-i<0){
+					clearInterval(myVar)
+					scrollTo(0,0);
+				}
+			},1)
 		},
 		components:{
 			'iconnav':iconnav

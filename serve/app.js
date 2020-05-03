@@ -50,7 +50,6 @@ server.get('/reg',(req,res)=>{
 			res.send({code:-1,msg:'添加失败'})
 		}
 	})
-	
 })
 
 
@@ -90,7 +89,6 @@ server.get('/use',(req,res)=>{
 
 // 商品图片
 server.get('/pshow_img',(req,res)=>{
-	// console.log(req.session.arr);
 	var sql='select * from pshow_img';
 	pool.query(sql,(err,result)=>{
 		if(err) throw err;
@@ -246,5 +244,21 @@ server.get('/del',(req,res)=>{
 			res.send({code:-1,msg:'删除失败'})
 		}
 		
+	})
+})
+
+server.get('/select',(req,res)=>{
+	var uid=req.session.arr.uid;
+	if(!uid){
+		res.send({code:-1,msg:'请登录'});
+		return;
+	}
+	let brand=req.query.brand;
+	console.log(req.query);
+	let sql='select * from products where brand=?';
+	pool.query(sql,[brand],(err,result)=>{
+		if(err) throw err;
+		console.log(result);
+		res.send({data:result});
 	})
 })

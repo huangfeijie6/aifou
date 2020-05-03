@@ -8,7 +8,7 @@
 		</div>
 		<div class="bottom" :style="speed?'':'height:35px;'" >
 			<div class="bg" v-for="(task,i) of 10" :key='i' @click='hanshu(i)'>
-				<div :class="{on:true,active:stats[i].isselect}">Apple</div>
+				<div :class="{on:true,active:stats[i].isselect}">{{brands[i]}}</div>
 			</div>
 		</div>
 		<hr>
@@ -23,6 +23,8 @@
 			return{
 			//默认返回空对象（没数据）
 				speed:false,
+				brands:[],
+				brand:'',
 				stats:[
 					{isselect:false},
 					{isselect:false},
@@ -37,17 +39,50 @@
 				]
 			}
 		},
+		props:["lists"],
 		methods:{
+			// 选择品牌
 			hanshu(i){
 				let $i=i;
 				for(let i=0;i<this.stats.length;i++){
-					if($i==i){
-						this.stats[i].isselect=true;
-					}else{
-						this.stats[i].isselect=false;
-					}
+					$i==i?this.stats[i].isselect=true:this.stats[i].isselect=false;
 				}
-			}
+				this.brand=this.brands[i];
+				console.log(this.brands);
+				let brand=this.brand;
+				this.$emit('brea',brand);
+			},
+			// 选择数据库有的品牌
+			crea(){
+				let len=this.lists.length;
+				console.log(this.lists);
+				for(let i=0;i<len;i++){
+					this.brands.push(this.lists[i].brand)
+				}
+				this.brands=[...new Set(this.brands)];
+				console.log(this.brands);
+			},
+			// 导出选择的品牌
+			// sucess(){
+			// 	let url='select';
+			// 	// console.log(this.brands);
+			// 	let obj={brand:this.brand};
+			// 	this.axios.get(url,{params:obj}).then(res=>{
+			// 		console.log(res.data.data,this.lists);
+			// 		let list=res.data.data
+			// 		this.$emit('brea',list);
+			// 	})
+			// }
+		},
+		created(){
+			console.log(this.lists) // ×--> 'lesser',  
+			setTimeout(()=>{
+				console.log(this.lists) // √--> 'lesser','..一段长文..'
+				this.crea();
+			},1000)
+		},
+		beforeMount() {
+			
 		}
 	}
 </script>
