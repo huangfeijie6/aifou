@@ -14,8 +14,8 @@
 		<div class="panel" :style="icon2?'top:0px;':'top: -100%;'">
 			<classify :lists='lists' @brea='brea'></classify>
 			<div class="button">
-				<div class="left">重置</div>
-				<div class="right" @click="icon2=!icon2">完成</div>
+				<div class="left" @click="reset">重置</div>
+				<div class="right" @click="complete">完成</div>
 			</div>
 		</div>
 	</div>
@@ -31,6 +31,7 @@
 				icon1_active1:false,
 				icon1_active2:false,
 				icon2:false,
+				brand:'',
 				list:[]
 			}
 		},
@@ -38,52 +39,41 @@
 		methods:{
 			// 当前价格 按钮（作用就是价格排序）
 			pic(){
-				// console.log(this.list);
-				this.i++;
+				let i=this.i++;
+				this.i%2==0?(this.icon1_active1=false,this.icon1_active2=true):(this.icon1_active1=true,this.icon1_active2=false);
 				this.or_bottom=true;
 				this.icon1=false;
-				if(this.i%2==0){
-					// 从小到大
-					this.icon1_active1=false;
-					this.icon1_active2=true;
-					let url='asc';
-					let arr=[];
-					// console.log(this.lists);
-					// for(let i=0;i<this.lists.length;i++){
-					// 	arr.push(this.lists[i].price)
-					// 	console.log(this.lists[i].price);
-					// }
-					// console.log([...new Set(arr)]);
-					this.axios.get(url).then(res=>{
-						// console.log(this.list,res.data);
-						this.list=res.data.data;
-						this.$emit('asc',this.list)
-						// console.log(res.data.data);
-					})
-				}else{
-					// 从大到小
-					this.icon1_active1=true;
-					this.icon1_active2=false;
-					let url='desc';
-					console.log(this.lists);
-					
-					
-					
-					this.axios.get(url).then(res=>{
-						this.list=res.data.data;
-						this.$emit('asc',this.list)
-						// console.log(res.data.data,this.list);
-					})
+				var resultData=this.lists;
+				function compare(price) { //按照数组中的对象属性进行排序
+					return function (a, b) {
+					  var value1 = a[price];
+					  var value2 = b[price];
+						if(i%2==0){
+							// 从小到大
+							return value2 - value1;
+						}else{
+							// 从大到小
+							return value1 - value2;
+						}
+					}
 				}
+				this.list=this.lists=resultData.sort(compare('price'));
+				this.$emit('asc',this.list)
 			},
 			brea(brand){
-				console.log(brand);
+				this.brand=brand;
+			},
+			complete(){
 				let url='select';
-				let obj={brand:brand};
+				let obj={brand:this.brand};
 				this.axios.get(url,{params:obj}).then(res=>{
 					let list=res.data.data
 					this.$emit('asc',list);
 				})
+				this.icon2=false;
+			},
+			reset(){
+				console.log(11);
 			}
 		},
 		components:{
@@ -101,7 +91,7 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-		height: 50px;
+		height: 10vh;
 		top: 0;
 		font-size: 14px;
 		border-bottom: 1px solid #eee;
@@ -152,7 +142,7 @@
 		position: fixed;
 		width: 100%;
 		height: 100vh;
-		padding-top: 51px;
+		padding-top: 10vh;
 		box-sizing: border-box;
 		z-index: 0;
 		background: #fff;

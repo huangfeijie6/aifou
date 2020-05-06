@@ -248,13 +248,14 @@ server.get('/del',(req,res)=>{
 })
 
 server.get('/select',(req,res)=>{
+	// console.log(req.session);
 	var uid=req.session.arr.uid;
 	if(!uid){
 		res.send({code:-1,msg:'请登录'});
 		return;
 	}
 	let brand=req.query.brand;
-	console.log(req.query);
+	// console.log(req.query);
 	let sql='select * from products where brand=?';
 	pool.query(sql,[brand],(err,result)=>{
 		if(err) throw err;

@@ -2,19 +2,16 @@
 <template>
 	<!-- 模板要求：必须有一个根标签 -->
 	<div>
-		<div @click="isshow=!isshow"
-		class="bg"
-		:class="isshow?'bg1':''">
-		</div>
-		<div class="fullscreen" :style="isshow?'z-index:2':''"></div>
+		<div @click="isshow=!isshow"	class="bg"	:class="isshow?'bg1':''"></div>
+		<div class="fullscreen" @click.stop="vanish" :style="isshow?'z-index:2':''"></div>
 		<router-link :to="`/`">
-		<div :style="isshow?'z-index:20':''" :class="isshow?'home1':'home'"	></div>
+			<div :style="isshow?'z-index:20':''" :class="isshow?'home1':'home'"	></div>
 		</router-link>
 		<router-link :to='`/cart`'>
-		<div :style="isshow?'z-index:20':''" :class="isshow?'shopping1':'shopping'" ></div>
+			<div :style="isshow?'z-index:20':''" :class="isshow?'shopping1':'shopping'" ></div>
 		</router-link>
 		<router-link :to='`/my`'>
-		<div :style="isshow?'z-index:20':''" :class="isshow?'person1':'person'"></div>
+			<div :style="isshow?'z-index:20':''" :class="isshow?'person1':'person'"></div>
 		</router-link>
 		
 <!-- 		<div :style="isshow?'z-index:20':''" :class="isshow?'shopping1':'shopping'" @click='changState(1)'></div>
@@ -36,7 +33,10 @@
 			}
 		},
 		methods:{
-			
+			// 点击空白处弹框消失
+			vanish(e){
+				this.isshow=false;
+			}
 		}
 		
 	}

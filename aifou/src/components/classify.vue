@@ -7,7 +7,7 @@
 			<div class="index" @click='speed=!speed' :style="speed?'transform: rotate(180deg);':''"></div>
 		</div>
 		<div class="bottom" :style="speed?'':'height:35px;'" >
-			<div class="bg" v-for="(task,i) of 10" :key='i' @click='hanshu(i)'>
+			<div class="bg" v-for="(task,i) of brands" :key='i' @click='hanshu(i)'>
 				<div :class="{on:true,active:stats[i].isselect}">{{brands[i]}}</div>
 			</div>
 		</div>
@@ -48,19 +48,18 @@
 					$i==i?this.stats[i].isselect=true:this.stats[i].isselect=false;
 				}
 				this.brand=this.brands[i];
-				console.log(this.brands);
+				// console.log(this.brands);
 				let brand=this.brand;
 				this.$emit('brea',brand);
 			},
 			// 选择数据库有的品牌
 			crea(){
 				let len=this.lists.length;
-				console.log(this.lists);
+				// console.log(this.lists);
 				for(let i=0;i<len;i++){
 					this.brands.push(this.lists[i].brand)
 				}
 				this.brands=[...new Set(this.brands)];
-				console.log(this.brands);
 			},
 			// 导出选择的品牌
 			// sucess(){
@@ -75,9 +74,9 @@
 			// }
 		},
 		created(){
-			console.log(this.lists) // ×--> 'lesser',  
+			// console.log(this.lists) // ×--> 'lesser',  
 			setTimeout(()=>{
-				console.log(this.lists) // √--> 'lesser','..一段长文..'
+				// console.log(this.lists) // √--> 'lesser','..一段长文..'
 				this.crea();
 			},1000)
 		},
