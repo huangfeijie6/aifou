@@ -112,7 +112,7 @@
 		align-items: flex-start;
 	}
 	.title > .flex{
-		height: 100vh;
+		height: 50vh;
 	}
 	.flex span{
 		color: orange;

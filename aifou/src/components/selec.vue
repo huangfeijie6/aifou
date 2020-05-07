@@ -12,9 +12,9 @@
 			</div>
 		</div>
 		<div class="panel" :style="icon2?'top:0px;':'top: -100%;'">
-			<classify :lists='lists' @brea='brea'></classify>
+			<classify :brands='brands'  :stats='stats'   @brea='brea' ></classify>
 			<div class="button">
-				<div class="left" @click="reset">重置</div>
+				<div class="left" @click="reset" >重置</div>
 				<div class="right" @click="complete">完成</div>
 			</div>
 		</div>
@@ -32,11 +32,27 @@
 				icon1_active2:false,
 				icon2:false,
 				brand:'',
-				list:[]
+				list:[],
+				stats:[],
+				brands:[]
 			}
 		},
 		props:['lists'],
 		methods:{
+			crea(){
+				this.stats=[];
+				let len=this.lists.length;
+				console.log(this.lists);
+				
+				for(let i=0;i<len;i++){
+					this.brands.push(this.lists[i].brand)
+				}
+				this.brands=[...new Set(this.brands)];
+				for(let j=0;j<this.brands.length;j++){
+					this.stats.push({isselect:false});
+				}
+				console.log(this.stats);
+			},
 			// 当前价格 按钮（作用就是价格排序）
 			pic(){
 				let i=this.i++;
@@ -62,19 +78,35 @@
 			},
 			brea(brand){
 				this.brand=brand;
+				console.log(brand,this.brand);
 			},
 			complete(){
-				let url='select';
-				let obj={brand:this.brand};
-				this.axios.get(url,{params:obj}).then(res=>{
-					let list=res.data.data
-					this.$emit('asc',list);
-				})
+				if(!this.brand){
+					let url='products';
+					this.axios.get(url).then(res=>{
+						let list=res.data.data;
+						this.$emit('asc',list);
+					})
+				}else{
+					let url='select';
+					let obj={brand:this.brand};
+					this.axios.get(url,{params:obj}).then(res=>{
+						let list=res.data.data
+						this.$emit('asc',list);
+					})
+				}
 				this.icon2=false;
 			},
 			reset(){
-				console.log(11);
+				this.brand=null;
+				this.crea();
 			}
+		},
+		created() {
+			setTimeout(()=>{
+				// console.log(this.lists) // √--> 'lesser','..一段长文..'
+				this.crea();
+			},1000)
 		},
 		components:{
 			'classify':classify

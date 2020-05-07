@@ -7,8 +7,8 @@
 			<div class="index" @click='speed=!speed' :style="speed?'transform: rotate(180deg);':''"></div>
 		</div>
 		<div class="bottom" :style="speed?'':'height:35px;'" >
-			<div class="bg" v-for="(task,i) of brands" :key='i' @click='hanshu(i)'>
-				<div :class="{on:true,active:stats[i].isselect}">{{brands[i]}}</div>
+			<div class="bg" v-for="(task,i) of brands" :key='i' >
+				<div :class="{on:true,active:stats[i].isselect}" @click='hanshu(i)'>{{brands[i]}}</div>
 			</div>
 		</div>
 		<hr>
@@ -23,27 +23,16 @@
 			return{
 			//默认返回空对象（没数据）
 				speed:false,
-				brands:[],
-				brand:'',
-				stats:[
-					{isselect:false},
-					{isselect:false},
-					{isselect:false},
-					{isselect:false},
-					{isselect:false},
-					{isselect:false},
-					{isselect:false},
-					{isselect:false},
-					{isselect:false},
-					{isselect:false}
-				]
+				brand:''
+				// list:'',
 			}
 		},
-		props:["lists"],
+		props:["brands","stats"],
 		methods:{
 			// 选择品牌
 			hanshu(i){
 				let $i=i;
+				console.log($i);
 				for(let i=0;i<this.stats.length;i++){
 					$i==i?this.stats[i].isselect=true:this.stats[i].isselect=false;
 				}
@@ -54,12 +43,16 @@
 			},
 			// 选择数据库有的品牌
 			crea(){
-				let len=this.lists.length;
+				// let len=this.lists.length;
 				// console.log(this.lists);
-				for(let i=0;i<len;i++){
-					this.brands.push(this.lists[i].brand)
-				}
-				this.brands=[...new Set(this.brands)];
+				
+				// for(let i=0;i<len;i++){
+				// 	this.brands.push(this.lists[i].brand)
+				// }
+				// this.brands=[...new Set(this.brands)];
+				// for(let j=0;j<this.brands.length;j++){
+				// 	this.stats.push({isselect:false});
+				// }
 			},
 			// 导出选择的品牌
 			// sucess(){
@@ -75,10 +68,7 @@
 		},
 		created(){
 			// console.log(this.lists) // ×--> 'lesser',  
-			setTimeout(()=>{
-				// console.log(this.lists) // √--> 'lesser','..一段长文..'
-				this.crea();
-			},1000)
+	
 		},
 		beforeMount() {
 			
@@ -90,6 +80,7 @@
 	/* 当前组件专有样式内容 */
 	hr{
 		border: 1px solid #EEEEEE;
+		margin: 0;
 	}
 	.top{
 		padding: 10px;
@@ -122,7 +113,7 @@
 	}
 	.on{
 		background: #eee;
-		line-height: 25px;
+		line-height: 30px;
 	}
 	.active{
 		color: #FFFFFF;

@@ -39,7 +39,7 @@ server.get('/reg',(req,res)=>{
 	let sql='select uid from user where uphone=?'
 	pool.query(sql,[uphone],(err,result)=>{
 		if(err) throw err;
-		console.log(result);
+		// console.log(result);
 		if(result.length==0){
 			let mysql='insert into user value(null,?,?,?)';
 				pool.query(mysql,[uname,upwd,uphone],(err,result)=>{
@@ -121,33 +121,33 @@ server.get('/cart',(req,res)=>{
 	// console.log(req.session.arr.uid);
 })
 
-server.get('/asc',(req,res)=>{
-	var uid=req.session.arr.uid;
-	if(!uid){
-		res.send({code:-1,msg:'请登录'});
-		return;
-	}
-	// console.log(req.session.arr.uid);
-	var sql='SELECT * FROM products ORDER BY price ASC';
-	pool.query(sql,(err,result)=>{
-		if(err) throw err;
-		res.send({data:result})
-	})
-})
+// server.get('/asc',(req,res)=>{
+// 	var uid=req.session.arr.uid;
+// 	if(!uid){
+// 		res.send({code:-1,msg:'请登录'});
+// 		return;
+// 	}
+// 	// console.log(req.session.arr.uid);
+// 	var sql='SELECT * FROM products ORDER BY price ASC';
+// 	pool.query(sql,(err,result)=>{
+// 		if(err) throw err;
+// 		res.send({data:result})
+// 	})
+// })
 
-server.get('/desc',(req,res)=>{
-	var uid=req.session.arr.uid;
-	if(!uid){
-		res.send({code:-1,msg:'请登录'});
-		return;
-	}
-	// console.log(req.session.arr.uid);
-	var sql='SELECT * FROM products ORDER BY price DESC';
-	pool.query(sql,(err,result)=>{
-		if(err) throw err;
-		res.send({data:result})
-	})
-})
+// server.get('/desc',(req,res)=>{
+// 	var uid=req.session.arr.uid;
+// 	if(!uid){
+// 		res.send({code:-1,msg:'请登录'});
+// 		return;
+// 	}
+// 	// console.log(req.session.arr.uid);
+// 	var sql='SELECT * FROM products ORDER BY price DESC';
+// 	pool.query(sql,(err,result)=>{
+// 		if(err) throw err;
+// 		res.send({data:result})
+// 	})
+// })
 
 
 
@@ -186,13 +186,13 @@ server.get('/addcart',(req,res)=>{
 
 
 server.get('/chang',(req,res)=>{
-	console.log(req.query);
+	// console.log(req.query);
 	let id=req.query.id;
 	let count=req.query.count;
 	let sql=`update cart set count=${count} where id=${id}`;
 	pool.query(sql,[id,count],(err,result)=>{
 		if(err) throw err;
-		console.log(result);
+		// console.log(result);
 		if(result.affectedRows>0){
 			res.send({code:1,msg:'减少成功'})
 		}else{
@@ -237,7 +237,7 @@ server.get('/del',(req,res)=>{
 	let sql='delete from cart where id=?';
 	pool.query(sql,[id],(err,result)=>{
 		if(err) throw err;
-		console.log(result);
+		// console.log(result);
 		if(result.affectedRows>0){
 			res.send({code:1,msg:'删除成功'})
 		}else{
@@ -259,7 +259,7 @@ server.get('/select',(req,res)=>{
 	let sql='select * from products where brand=?';
 	pool.query(sql,[brand],(err,result)=>{
 		if(err) throw err;
-		console.log(result);
+		// console.log(result);
 		res.send({data:result});
 	})
 })
