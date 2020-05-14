@@ -6,10 +6,7 @@
 			<div @click="pic" :class="{or_bottom}">当前价格
 				<div :class="{icon1,icon1_active1,icon1_active2}"></div>
 			</div>
-			<div @click="icon2=!icon2">
-				筛选
-				<div :class="{icon2:true,icon2_active:icon2}"></div>
-			</div>
+			<div @click="icon2=!icon2">筛选<div :class="{icon2:true,icon2_active:icon2}"></div></div>
 		</div>
 		<div class="panel" :style="icon2?'top:0px;':'top: -100%;'">
 			<classify :brands='brands'  :stats='stats'   @brea='brea' ></classify>
@@ -42,7 +39,6 @@
 			crea(){
 				this.stats=[];
 				let len=this.lists.length;
-				console.log(this.lists);
 				
 				for(let i=0;i<len;i++){
 					this.brands.push(this.lists[i].brand)
@@ -51,7 +47,6 @@
 				for(let j=0;j<this.brands.length;j++){
 					this.stats.push({isselect:false});
 				}
-				console.log(this.stats);
 			},
 			// 当前价格 按钮（作用就是价格排序）
 			pic(){
@@ -78,7 +73,6 @@
 			},
 			brea(brand){
 				this.brand=brand;
-				console.log(brand,this.brand);
 			},
 			complete(){
 				if(!this.brand){
@@ -91,7 +85,7 @@
 					let url='select';
 					let obj={brand:this.brand};
 					this.axios.get(url,{params:obj}).then(res=>{
-						let list=res.data.data
+						let list=res.data.data;
 						this.$emit('asc',list);
 					})
 				}
@@ -134,7 +128,7 @@
 		justify-content: center;
 		align-items: center;
 		width: 50%;
-		height: 30px;
+		height: 10vh;
 	}
 	.heade>div:first-child{
 		border-right: 1px solid #E0E0E0;

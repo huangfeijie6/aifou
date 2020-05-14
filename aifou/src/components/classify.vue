@@ -32,7 +32,6 @@
 			// 选择品牌
 			hanshu(i){
 				let $i=i;
-				console.log($i);
 				for(let i=0;i<this.stats.length;i++){
 					$i==i?this.stats[i].isselect=true:this.stats[i].isselect=false;
 				}

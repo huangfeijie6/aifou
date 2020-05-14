@@ -7,7 +7,7 @@
 			<div class="pro">
 				<div class="item" v-for="(task,i) of list"  :key='i'  >
 					<router-link :to='`/proitem/`+task.pid'>
-						<img :data-src="`http://127.0.0.1:3000/${task.img}`" src="http://127.0.0.1:3000/img/loading.gif" class="lazy-image" alt="">
+						<img :data-src="`http://127.0.0.1:3000/${task.img}`" src="http://127.0.0.1:3000/img/loading.gif" class="lazy -image" alt="">
 						<!-- <img :src="`http://127.0.0.1:3000/${task.img}`" alt=""> -->
 						<div>{{task.brand}}   {{task.title}}</div>
 						<div>￥{{task.price}}</div>
@@ -55,24 +55,28 @@
 			lazyload() {
 				// console.log(this.list);
 				let list=this.list;
+				console.log(list);
 				let images = document.getElementsByTagName('img');
+				let body = document.getElementsByTagName('body')
+				console.log(body,images);
+				console.log(body.length,images.length);
 				// let len = images.length
 				let n= 0;      //存储图片加载到的位置，避免每次都从第一张图片开始遍历
 				return function() {
-					// console.log(images,images.length,n);
 					var seeHeight = document.documentElement.clientHeight;
+					console.log(images.length);
 														// 文档元素		内部高度
 					// var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 														// 									文本		顶部
 					// console.log(document.documentElement.scrollTop,document.body.scrollTop,scrollTop);
 					for(var i = n; i < images.length; i++) {
-						// console.log(list);
 						if(images[i].offsetTop < seeHeight + document.documentElement.scrollTop) {
 							// console.log(images[i].offsetTop < seeHeight + document.documentElement.scrollTop);
 							// 														懒加载												切换产品的对比
 				　　　　 if(images[i].getAttribute('src') === 'http://127.0.0.1:3000/img/loading.gif' || images[i].getAttribute('src')!=images[i].getAttribute('data-src')) {
 								// console.log(images[i].src,images[i].getAttribute('data-src'));
 								images[i].src = images[i].getAttribute('data-src');
+								console.log(images.length);
 							}
 							n = n + 1;
 						}
@@ -85,7 +89,7 @@
 					setTimeout(()=>{
 						let loImages=fn;
 						loImages()
-					},20);
+					},200);
 				})
 				window.addEventListener('scroll', this.throttle(fn, 500, 1000), false);
 			}
@@ -95,13 +99,17 @@
 			this.axios.get(url).then(res=>{
 				this.list=res.data.data;
 			});
+			
+			this.update();
 			this.bus.$on('asc',this.asc.bind(this));
 		},
 		beforeMount() {
 			
 		},
 		mounted() {
-			this.update();
+		},
+		breforeUpdate(){
+			
 		},
 		components:{
 			'selec':selec,

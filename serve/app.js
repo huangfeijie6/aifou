@@ -35,7 +35,6 @@ server.get('/reg',(req,res)=>{
 	let uname=req.query.uname;
 	let uphone=req.query.uphone;
 	let upwd=req.query.upwd;
-	
 	let sql='select uid from user where uphone=?'
 	pool.query(sql,[uphone],(err,result)=>{
 		if(err) throw err;
@@ -51,8 +50,6 @@ server.get('/reg',(req,res)=>{
 		}
 	})
 })
-
-
 
 
 // 登录页面的验证
@@ -243,17 +240,10 @@ server.get('/del',(req,res)=>{
 		}else{
 			res.send({code:-1,msg:'删除失败'})
 		}
-		
 	})
 })
 
 server.get('/select',(req,res)=>{
-	// console.log(req.session);
-	var uid=req.session.arr.uid;
-	if(!uid){
-		res.send({code:-1,msg:'请登录'});
-		return;
-	}
 	let brand=req.query.brand;
 	// console.log(req.query);
 	let sql='select * from products where brand=?';
